@@ -1,0 +1,55 @@
+menu = '''
+
+[1] - Depositar
+[2] - Sacar
+[3] - Extrato
+[0] - Sair
+
+=> '''
+
+saldo = 0
+limite = 500
+extrato = ''
+numero_saques = 0
+LIMITE_SAQUES = 3
+
+while True:
+  print('Seja bem vindo ao Banco DIO!!! Como podemos ajuda-lo hoje?')
+  
+  print(menu)
+
+  acao = input('Escolha uma das opções: ')
+  if acao == '1':
+    deposito = float(input('Você escolheu a opção DEPOSITAR, insira a quantia desejada: '))    
+    while deposito < 0:
+      deposito = float(input('Valor invalido, digite novamente: '))
+    saldo = saldo + deposito
+    extrato += f'Depósito: R${deposito:.2f}\n'
+    print(f'Seu novo saldo é R$ {saldo:.2f}')
+
+  elif acao == '2':
+    if numero_saques >= LIMITE_SAQUES:
+      print('Você atingiu seu limite de saques por hoje!!! Podemos te ajudar em alguma outra coisa?')
+      acao = input('Digite 0 para sair: ')
+    else:
+      saque = float(input('Você escolheu a opção SACAR, insira a quantia desejada: '))    
+      while saque < 0:
+       saque = float(input('Valor inválido, digite novamente: '))
+      while saque > 500:
+        saque = float(input('Valor excede o limite de R$500,00 por saque, digite novamente: '))
+      while saque > saldo:
+        saque = float(input(f'Saldo indisponível, atualmente seu saldo é de R${saldo:.2f}, digite outro valor ou 0 para sair: '))
+        if acao == 0:
+          break
+    saldo = saldo - saque
+    numero_saques = numero_saques + 1
+    extrato += f'Saque: R${saque:.2f}\n'
+    print(f'Seu novo saldo é R$ {saldo:.2f}')
+  elif acao == '3':
+    print('\n==========EXTRATO==========')
+    print('Não foram realizadas movimentações.' if not extrato else extrato)
+    print(f'\nSaldo: R$ {saldo:.2f}')
+    print('===========================')
+      
+  else:
+    break
